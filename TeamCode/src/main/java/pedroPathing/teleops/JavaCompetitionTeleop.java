@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import pedroPathing.subsystems.HorizontalArm;
+import pedroPathing.subsystems.MecanumDrive;
 import pedroPathing.subsystems.Odometry;
 import pedroPathing.subsystems.SuperSystem;
 
@@ -17,7 +18,7 @@ import pedroPathing.subsystems.SuperSystem;
 @Config
 public abstract class JavaCompetitionTeleop extends OpMode {
     protected AllianceColor allianceColor;
-    //PinpointDrive drive;
+    MecanumDrive drive;
     GamepadEx g1;
     double headingOffset;
     HorizontalArm horizontalArm;
@@ -34,8 +35,8 @@ public abstract class JavaCompetitionTeleop extends OpMode {
 
 
     public void init() {
+        drive = new MecanumDrive(hardwareMap);
         superSystem = new SuperSystem(hardwareMap,dashboardTelemetry);
-        //drive = new PinpointDrive(hardwareMap, new Pose2d(0, 0, 0));
         g1 = new GamepadEx(gamepad1);
         allianceColor = getAllianceColor();
         odometry = new Odometry(hardwareMap);
@@ -70,36 +71,31 @@ public abstract class JavaCompetitionTeleop extends OpMode {
         left_t = -zeroAnalogInput(g1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
         right_t = zeroAnalogInput(g1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
 
-        //dashboardTelemetry.addData("direction facing",drive.getHeadingToMaintain());
+        dashboardTelemetry.addData("direction facing",drive.getHeadingToMaintain());
 
         //driver 1
         if (!superSystem.getIsScanning() && !superSystem.getIsLowScanning()){
             if (allianceColor.equals(AllianceColor.BLUE)) {
-                //drive.drive2(digitalTransmission(-left_x), digitalTransmission(-left_y), right_x);
+                drive.drive2(digitalTransmission(-left_x), digitalTransmission(-left_y), right_x);
             } else {
-                //drive.drive2(digitalTransmission(-left_x), digitalTransmission(-left_y), right_x);
+                drive.drive2(digitalTransmission(-left_x), digitalTransmission(-left_y), right_x);
             }
         }else if(superSystem.getIsLowScanning()){
-            //drive.drive2(digitalTransmission((double) -superSystem.getXScanDirection() * xSpeedFactor),digitalTransmission(0),0);
+            drive.drive2(digitalTransmission((double) -superSystem.getXScanDirection() * xSpeedFactor),digitalTransmission(0),0);
         }else if(superSystem.getIsScanning()){
-//            double directionToGO = superSystem.getXScanDirection();
-//            dashboardTelemetry.addData("xOffset", directionToGo);
+            double directionToGO = superSystem.getXScanDirection();
+            dashboardTelemetry.addData("xOffset", directionToGo);
 
-            //if(drive.getHeadingToMaintain() == 0){
-            //    drive.drive2(digitalTransmission((double) superSystem.getXScanDirection() *xSpeedFactor),digitalTransmission(0),0);
-            //}else if(drive.getHeadingToMaintain() == 90){
-            //    drive.drive2(digitalTransmission(0),digitalTransmission((double) superSystem.getXScanDirection() *xSpeedFactor),0);
-            //}else if(drive.getHeadingToMaintain() == 180){
-            //    drive.drive2(digitalTransmission((double) -superSystem.getXScanDirection() * xSpeedFactor),digitalTransmission(0),0);
-            //}else if(drive.getHeadingToMaintain() == -90){
-            //    drive.drive2(digitalTransmission(0),digitalTransmission((double) -superSystem.getXScanDirection() * xSpeedFactor),0);
-           // }
+            if(drive.getHeadingToMaintain() == 0){
+                drive.drive2(digitalTransmission((double) superSystem.getXScanDirection() *xSpeedFactor),digitalTransmission(0),0);
+            }else if(drive.getHeadingToMaintain() == 90){
+                drive.drive2(digitalTransmission(0),digitalTransmission((double) superSystem.getXScanDirection() *xSpeedFactor),0);
+            }else if(drive.getHeadingToMaintain() == 180){
+                drive.drive2(digitalTransmission((double) -superSystem.getXScanDirection() * xSpeedFactor),digitalTransmission(0),0);
+            }else if(drive.getHeadingToMaintain() == -90){
+                drive.drive2(digitalTransmission(0),digitalTransmission((double) -superSystem.getXScanDirection() * xSpeedFactor),0);
+            }
         }
-
-        //this modifies the field centric direction
-        //if (g1.wasJustPressed(GamepadKeys.Button.B)) headingOffset = rawHeading;
-        //if (g1.wasJustPressed(GamepadKeys.Button.B)) headingOffset = Math.PI/2;
-        //if (g1.wasJustPressed(GamepadKeys.Button.A)) headingOffset = 0;
 
         if (g1.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)){
             superSystem.toggle();
@@ -110,13 +106,13 @@ public abstract class JavaCompetitionTeleop extends OpMode {
         if (g1.isDown(GamepadKeys.Button.RIGHT_BUMPER)) {
             if (this.g1.isDown(GamepadKeys.Button.A)) { //really X
                 superSystem.reset();
-                //if(drive.getHeadingToMaintain() == 180){
-                //    prescan = 1;
-                //}else{
-                //    prescan = 0;
-                //}
+                if(drive.getHeadingToMaintain() == 180){
+                    prescan = 1;
+                }else{
+                    prescan = 0;
+                }
             } else if (this.g1.wasJustPressed(GamepadKeys.Button.B)) { //really O
-//                superSystem.scan(2);
+                superSystem.scan(2);
                 if(prescan == 1){
                     superSystem.toPreScan();
                     prescan = 2;
@@ -148,9 +144,9 @@ public abstract class JavaCompetitionTeleop extends OpMode {
             } else if (this.g1.isDown(GamepadKeys.Button.Y)) { //really ^
                 superSystem.prepToDropOff();
                 if(superSystem.getToggleState() == 0){
-                    //drive.setHeadingToMaintain(135);
+                    drive.setHeadingToMaintain(135);
                 }else if(superSystem.getToggleState() == 1){
-                    //drive.setHeadingToMaintain(0);
+                    drive.setHeadingToMaintain(0);
                 }
 
             } else if (this.g1.isDown(GamepadKeys.Button.X)) { ////really []
@@ -158,16 +154,16 @@ public abstract class JavaCompetitionTeleop extends OpMode {
             }
         }else{
             if (this.g1.wasJustPressed(GamepadKeys.Button.A)) { //really X
-                //drive.setHeadingToMaintain(0); // 180 degrees???
+                drive.setHeadingToMaintain(0); // 180 degrees???
                 prescan = 0;
             } else if (this.g1.wasJustPressed(GamepadKeys.Button.B)) { //really O
-                //drive.setHeadingToMaintain(90);
+                drive.setHeadingToMaintain(90);
                 prescan = 0;
             } else if (this.g1.wasJustPressed(GamepadKeys.Button.Y)) { //really ^
-                //drive.setHeadingToMaintain(180);
+                drive.setHeadingToMaintain(180);
                 prescan = 1;
             } else if (this.g1.wasJustPressed(GamepadKeys.Button.X)) { ////really []
-                //drive.setHeadingToMaintain(-90);
+                drive.setHeadingToMaintain(-90);
                 prescan = 0;
             }
         }
