@@ -33,8 +33,8 @@ public class SuperSystem {
     boolean isScanning = false;
     public static double scanPowerFast = .6;
     public static double scanPowerSlow = .3;
-    public static double upperLimit = 0.135;
-    public static double lowerLimit = 0.035;
+    public static double upperLimit = 0.065;
+    public static double lowerLimit = -0.035;
     public static int xScanDirection = 0;
     public boolean xReady = false;
     public boolean yReady = false;

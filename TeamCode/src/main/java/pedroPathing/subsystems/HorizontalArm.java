@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class HorizontalArm {
     public static double scanPos = 0.72;
     public static double pickupPos = 0.86;
-    public static double transferPos= 0.46;
+    public static double transferPos= 0.44;
     public static double stowPos= 0.5;
     public static int timePickupToTransfer = 800;
     public static int timeTransferToScan = 500;

@@ -11,8 +11,8 @@ public class HorizontalHand {
     private final Servo finger;
     public static double par = .79;
     public static double perp = .46;
-    public static double open = .2;
-    public static double closed = .42;
+    public static double open = .25;
+    public static double closed = .47;
     public static double down = 0.03;
     public static double up = .6;
     public static double limit = 0.20;

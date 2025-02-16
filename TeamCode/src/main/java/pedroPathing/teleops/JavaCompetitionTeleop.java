@@ -40,6 +40,7 @@ public abstract class JavaCompetitionTeleop extends OpMode {
         g1 = new GamepadEx(gamepad1);
         allianceColor = getAllianceColor();
         odometry = new Odometry(hardwareMap);
+        odometry.odoUp();
         horizontalArm = new HorizontalArm(hardwareMap);
 
         if (allianceColor.equals(AllianceColor.BLUE)) {
@@ -58,7 +59,6 @@ public abstract class JavaCompetitionTeleop extends OpMode {
     @Override
     public void start() {
         superSystem.start();
-        odometry.odoUp();
     }
 
     public void loop() {

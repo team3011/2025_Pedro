@@ -18,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
+import pedroPathing.subsystems.Odometry;
 import pedroPathing.subsystems.SuperSystem;
 
 /**
@@ -33,6 +34,7 @@ import pedroPathing.subsystems.SuperSystem;
 @Config
 @Autonomous
 public class AutoRedClip extends OpMode {
+    Odometry odometry;
     SuperSystem superSystem;
     //this section allows us to access telemetry data from a browser
     FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -206,7 +208,7 @@ public class AutoRedClip extends OpMode {
             case 0:
                 //move to clip dropoff and prep to clip
                 superSystem.prepToDropOff();
-                follower.followPath(scorePreload);
+                follower.followPath(scorePreload,true);
                 setPathState(1);
                 break;
             case 1:
@@ -350,7 +352,8 @@ public class AutoRedClip extends OpMode {
         superSystem = new SuperSystem(hardwareMap,dashboardTelemetry);
         superSystem.setAlliance(false);
         superSystem.setToggleStateAuto();
-
+        odometry = new Odometry(hardwareMap);
+        odometry.odoDown();
         pathTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
@@ -377,17 +380,15 @@ public class AutoRedClip extends OpMode {
     @Override
     public void loop() {
         superSystem.update();
-
-        // These loop the movements of the robot
         follower.update();
         autonomousPathUpdate();
 
         // Feedback to Driver Hub
-        telemetry.addData("path state", pathState);
-        telemetry.addData("x", follower.getPose().getX());
-        telemetry.addData("y", follower.getPose().getY());
-        telemetry.addData("heading", follower.getPose().getHeading());
-        telemetry.update();
+        dashboardTelemetry.addData("path state", pathState);
+        dashboardTelemetry.addData("x", follower.getPose().getX());
+        dashboardTelemetry.addData("y", follower.getPose().getY());
+        dashboardTelemetry.addData("heading", follower.getPose().getHeading());
+        dashboardTelemetry.update();
     }
 
 
