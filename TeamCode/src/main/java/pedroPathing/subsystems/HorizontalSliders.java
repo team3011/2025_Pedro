@@ -136,7 +136,7 @@ public class HorizontalSliders {
                     this.leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     this.targetPosition = 0;
                 } else {
-                    pid = -0.4;
+                    pid = -0.8;
                 }
             }
 

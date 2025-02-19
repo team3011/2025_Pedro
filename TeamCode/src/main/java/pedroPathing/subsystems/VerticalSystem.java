@@ -12,17 +12,18 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class VerticalSystem {
     //@Config variables
     public static int Height_clip = 450;
-    public static int Height_clipClip = 345;
+    public static int Height_clipClip = 290;
     public static int Height_transfer = 40;
     public static int Height_prepToLift = 175;
     public static int Height_basket = 940;
     public static int Height_stow = 300;
     public static int Height_lift = 100;
-    public static int gripPause = 1000;
+    public static int gripPause = 500;
     static int gripperState = -1; //0 means closed, 1 means open
     static int gripperTarget = -1;
     static ElapsedTime runtime = new ElapsedTime();
     boolean waitForClip = false;
+    boolean autoWait= false;
 
 
     static VerticalSliders verticalSliders;
@@ -75,6 +76,10 @@ public class VerticalSystem {
         gripperTarget = 0;
     }
 
+    public void setAutoWait(boolean b){
+        autoWait = b;
+    }
+
     public void clipClip(){
         verticalSliders.setPosition(Height_clipClip);
         waitForClip = true;
@@ -84,7 +89,6 @@ public class VerticalSystem {
         verticalSliders.addPowerForLift(true);
         verticalSliders.setPosition(Height_lift);
     }
-
 
     public void openGripper(){
         gripperTarget = 1;
@@ -110,7 +114,7 @@ public class VerticalSystem {
                 gripperState = 0;
             }
         }
-        if (runtime.milliseconds() > gripPause) {
+        if (runtime.milliseconds() > gripPause || autoWait) {
             verticalSliders.update();
         }
         //dashboardTelemetry.addData("gripper state", gripperState);

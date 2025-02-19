@@ -20,31 +20,31 @@ public class FConstants {
 
         FollowerConstants.mass = 18.234; //robot mass in kg - WOW shes thick
 
-        FollowerConstants.xMovement = 55.47346373854026;
-        FollowerConstants.yMovement = 37.512327537486634;
+        FollowerConstants.xMovement = 55.49059135896145; // 61.043622825611145 at 255 2/17
+        FollowerConstants.yMovement =  34.582989900542486; // 42.621403162065704 at 255 2/17
 
-        FollowerConstants.forwardZeroPowerAcceleration = -30.44217447182287;
-        FollowerConstants.lateralZeroPowerAcceleration =  -79.44620199500334;
+        FollowerConstants.forwardZeroPowerAcceleration = -27.941003214676822; // -27.941003214676822 at 255 2/17
+        FollowerConstants.lateralZeroPowerAcceleration =  -86.81509062252958; // -82.32803462012504 at 255 2/17
 
-        FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.15,0,0.01,0);
+        FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.3,0.0002,0.02,0); // 0.2,0.0001,0.01,0 at 255 2/17
         FollowerConstants.useSecondaryTranslationalPID = false;
         FollowerConstants.secondaryTranslationalPIDFCoefficients.setCoefficients(0.1,0,0.01,0); // Not being used, @see useSecondaryTranslationalPID
 
-        FollowerConstants.headingPIDFCoefficients.setCoefficients(2,0,0.1,0);
+        FollowerConstants.headingPIDFCoefficients.setCoefficients(5,0,0.17,0); // 2,0,0.1,0 at 255 2/17
         FollowerConstants.useSecondaryHeadingPID = false;
         FollowerConstants.secondaryHeadingPIDFCoefficients.setCoefficients(2,0,0.1,0); // Not being used, @see useSecondaryHeadingPID
 
-        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.015,0,0,0.6,0);
+        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.015,0,0.000001,0.3,0); // 0.015,0,0,0.6,0 at 255 2/17
         FollowerConstants.useSecondaryDrivePID = false;
         FollowerConstants.secondaryDrivePIDFCoefficients.setCoefficients(0.1,0,0,0.6,0); // Not being used, @see useSecondaryDrivePID
 
-        FollowerConstants.zeroPowerAccelerationMultiplier = 4;
-        FollowerConstants.centripetalScaling = 0.0005;
+        FollowerConstants.zeroPowerAccelerationMultiplier = 4; // 4 at 255 2/17
+        FollowerConstants.centripetalScaling = 0.0001; // 0.0001 at 255 2/17
 
-        FollowerConstants.pathEndTimeoutConstraint = 500;
-        FollowerConstants.pathEndTValueConstraint = 0.995;
-        FollowerConstants.pathEndVelocityConstraint = 0.1;
-        FollowerConstants.pathEndTranslationalConstraint = 0.1;
-        FollowerConstants.pathEndHeadingConstraint = 0.007;
+        FollowerConstants.pathEndTimeoutConstraint = 500; // 500 at 255 2/17
+        FollowerConstants.pathEndTValueConstraint = 0.995; // 0.995 at 255 2/17
+        FollowerConstants.pathEndVelocityConstraint = 0.1; // 0.1 at 255 2/17
+        FollowerConstants.pathEndTranslationalConstraint = 0.1; // 0.1 at 255 2/17
+        FollowerConstants.pathEndHeadingConstraint = 0.007; // 0.007 at 255 2/17
     }
 }

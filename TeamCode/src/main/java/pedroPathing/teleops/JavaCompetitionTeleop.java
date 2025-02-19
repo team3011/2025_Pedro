@@ -36,12 +36,13 @@ public abstract class JavaCompetitionTeleop extends OpMode {
 
     public void init() {
         drive = new MecanumDrive(hardwareMap);
-        superSystem = new SuperSystem(hardwareMap,dashboardTelemetry);
+        superSystem = new SuperSystem(hardwareMap,dashboardTelemetry, false);
         g1 = new GamepadEx(gamepad1);
         allianceColor = getAllianceColor();
         odometry = new Odometry(hardwareMap);
         odometry.odoUp();
         horizontalArm = new HorizontalArm(hardwareMap);
+        superSystem.setIsAutoScan(false);
 
         if (allianceColor.equals(AllianceColor.BLUE)) {
             superSystem.setAlliance(true);
@@ -71,6 +72,8 @@ public abstract class JavaCompetitionTeleop extends OpMode {
         left_t = -zeroAnalogInput(g1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
         right_t = zeroAnalogInput(g1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
 
+
+        dashboardTelemetry.addData("autoTransfer Done",superSystem.getIsAutoTransferDone());
         dashboardTelemetry.addData("direction facing",drive.getHeadingToMaintain());
 
         //driver 1

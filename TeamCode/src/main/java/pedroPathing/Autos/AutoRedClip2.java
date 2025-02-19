@@ -33,7 +33,7 @@ import pedroPathing.subsystems.SuperSystem;
 
 @Config
 @Autonomous
-public class AutoRedClip extends OpMode {
+public class AutoRedClip2 extends OpMode {
     Odometry odometry;
     SuperSystem superSystem;
     //this section allows us to access telemetry data from a browser
@@ -43,9 +43,10 @@ public class AutoRedClip extends OpMode {
     public static int clipTime = 350;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
-    public static double humanX = 122;
+    public static double humanX = 123;
     public static double humanY = 120.861;
-    public static double yOffset = 0;
+    public static double yOffset = 1;
+    public static double xOffset = 5;
     public static double clipX = 106.5;
     public static double clipY = 81;
 
@@ -85,11 +86,11 @@ public class AutoRedClip extends OpMode {
 
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         scorePreload = follower.pathBuilder()
+                // Line 1
                 .addPath(
-                        // Line 1
                         new BezierLine(
-                                new Point(134.5, 62, Point.CARTESIAN),
-                                new Point(clipX, clipY-19, Point.CARTESIAN)
+                                new Point(134.5, 81, Point.CARTESIAN),
+                                new Point(clipX, clipY, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
@@ -97,45 +98,78 @@ public class AutoRedClip extends OpMode {
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         move1 = follower.pathBuilder()
+                // Line 2
                 .addPath(
                         new BezierCurve(
-                                new Point(106.500, 62.200, Point.CARTESIAN),
-                                new Point(136.842, 54.437, Point.CARTESIAN),
-                                new Point(115.000, 22.474, Point.CARTESIAN)
+                                new Point(106.500, 81.000, Point.CARTESIAN),
+                                new Point(126.400, 95.111, Point.CARTESIAN),
+                                new Point(128.178, 104.356, Point.CARTESIAN),
+                                new Point(105.067, 108.267, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                //Line 3
+                .addPath(
+                        new BezierCurve(
+                                new Point(105.067, 108.267, Point.CARTESIAN),
+                                new Point(76.978, 106.489, Point.CARTESIAN),
+                                new Point(81.778, 115.733, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                // Line 4
+                .addPath(
+                        new BezierCurve(
+                                new Point(81.778, 115.733, Point.CARTESIAN),
+                                new Point(81.067, 120.533, Point.CARTESIAN),
+                                new Point(124.800-xOffset, 120.711, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                // Line 5
+                .addPath(
+                        new BezierCurve(
+                                new Point(124.800-xOffset, 120.711, Point.CARTESIAN),
+                                new Point(85.156, 112.356, Point.CARTESIAN),
+                                new Point(82.133, 125.333, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                // Line 6
+                .addPath(
+                        new BezierCurve(
+                                new Point(82.133, 125.333, Point.CARTESIAN),
+                                new Point(90.311, 134.400, Point.CARTESIAN),
+                                new Point(124.800-xOffset, 128.533, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                // Line 7
+                .addPath(
+                        new BezierCurve(
+                                new Point(124.800-xOffset, 128.533, Point.CARTESIAN),
+                                new Point(88.711, 122.489, Point.CARTESIAN),
+                                new Point(85.156, 134.578-yOffset, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                // Line 8
+                .addPath(
+                        new BezierCurve(
+                                new Point(85.156, 134.578-yOffset, Point.CARTESIAN),
+                                new Point(103.822, 134.400-yOffset, Point.CARTESIAN),
+                                new Point(124.800-xOffset, 134.578-yOffset, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                // Line 9
                 .addPath(
                         new BezierLine(
-                                new Point(115.000, 22.474, Point.CARTESIAN),
-                                new Point(129.683, 15.649, Point.CARTESIAN)
+                                new Point(124.800-xOffset, 134.578-yOffset, Point.CARTESIAN),
+                                new Point(humanX, humanY, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(315))
-                .addPath(
-                        new BezierCurve(
-                                new Point(129.683, 15.649, Point.CARTESIAN),
-                                new Point(115.366, 21.142, Point.CARTESIAN),
-                                new Point(115.000, 12.153, Point.CARTESIAN)
-                        )
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(0))
-                .addPath(
-                        new BezierCurve(
-                                new Point(115.000, 12.153, Point.CARTESIAN),
-                                new Point(115.366, 21.309, Point.CARTESIAN),
-                                new Point(129.850, 15.649, Point.CARTESIAN)
-                        )
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(315))
-                .addPath(
-                        new BezierCurve(
-                                new Point(129.850, 15.649, Point.CARTESIAN),
-                                new Point(115.366, 21.142, Point.CARTESIAN),
-                                new Point(115.200, 15.482, Point.CARTESIAN)
-                        )
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(40))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
                 .build();
 
         move2 = follower.pathBuilder()
@@ -175,7 +209,7 @@ public class AutoRedClip extends OpMode {
                                 new Point(59.911, 140.622, Point.CARTESIAN),
                                 new Point(93.333, 132.089, Point.CARTESIAN),
                                 new Point(60.800, 136.711, Point.CARTESIAN),
-                                new Point(130.682, 133.679+yOffset, Point.CARTESIAN)
+                                new Point(130.682, 133.679, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
@@ -193,20 +227,24 @@ public class AutoRedClip extends OpMode {
                 .build();
 
         scoreDropOff1 = follower.pathBuilder()
+                // Line 10
                 .addPath(
                         // Line 1
-                        new BezierLine(
+                        new BezierCurve(
                                 new Point(humanX, humanY, Point.CARTESIAN),
-                                new Point(clipX, clipY, Point.CARTESIAN)
+                                new Point(131.514, 86.899, Point.CARTESIAN),
+                                new Point(clipX, clipY-3, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
                 .build();
 
         scorePickup2 = follower.pathBuilder()
+                // Line 11
                 .addPath(
-                        new BezierLine(
-                                new Point(clipX, clipY, Point.CARTESIAN),
+                        new BezierCurve(
+                                new Point(clipX, clipY-3, Point.CARTESIAN),
+                                new Point(131.514, 86.899, Point.CARTESIAN),
                                 new Point(humanX, humanY, Point.CARTESIAN)
                         )
                 )
@@ -215,19 +253,22 @@ public class AutoRedClip extends OpMode {
 
         scoreDropOff2 = follower.pathBuilder()
                 .addPath(
-                        // Line 1
-                        new BezierLine(
+                        // Line 12
+                        new BezierCurve(
                                 new Point(humanX, humanY, Point.CARTESIAN),
-                                new Point(clipX, clipY, Point.CARTESIAN)
+                                new Point(131.514, 86.899, Point.CARTESIAN),
+                                new Point(clipX-1, clipY-5, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
                 .build();
 
         scorePickup3 = follower.pathBuilder()
+                // Line 13
                 .addPath(
-                        new BezierLine(
-                                new Point(clipX, clipY, Point.CARTESIAN),
+                        new BezierCurve(
+                                new Point(clipX-1, clipY-5, Point.CARTESIAN),
+                                new Point(131.514, 86.899, Point.CARTESIAN),
                                 new Point(humanX, humanY, Point.CARTESIAN)
                         )
                 )
@@ -235,11 +276,12 @@ public class AutoRedClip extends OpMode {
                 .build();
 
         scoreDropOff3 = follower.pathBuilder()
+                // Line 14
                 .addPath(
-                        // Line 1
-                        new BezierLine(
+                        new BezierCurve(
                                 new Point(humanX, humanY, Point.CARTESIAN),
-                                new Point(clipX, clipY, Point.CARTESIAN)
+                                new Point(131.514, 86.899, Point.CARTESIAN),
+                                new Point(clipX, clipY-7, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
@@ -268,9 +310,9 @@ public class AutoRedClip extends OpMode {
             case 2:
                 //move block 1
                 if (clipTimer.milliseconds() > clipTime) {
-                    follower.followPath(move1,false);
+                    follower.followPath(move1,true);
                     superSystem.reset();
-                    setPathState(33333);
+                    setPathState(6);
                     superSystem.setAutoWait(false);
                 }
                 break;
@@ -293,7 +335,7 @@ public class AutoRedClip extends OpMode {
                 if(!follower.isBusy()) {
                     superSystem.setAutoWait(false);
                     follower.followPath(scorePickup1, true);
-                    setPathState(6);
+                    setPathState(66);
                 }
                 break;
             case 6:
@@ -307,7 +349,7 @@ public class AutoRedClip extends OpMode {
             case 7:
                 //move to dropoff 1
                 if (superSystem.isRdyToMove()) {
-                    follower.followPath(scoreDropOff1,.8, true);
+                    follower.followPath(scoreDropOff1,.85, true);
                     setPathState(8);
 
                 }
@@ -341,7 +383,7 @@ public class AutoRedClip extends OpMode {
             case 11:
                 //move to dropoff 2
                 if (superSystem.isRdyToMove()) {
-                    follower.followPath(scoreDropOff2,.8, false);
+                    follower.followPath(scoreDropOff2,.85, true);
                     setPathState(12);
                 }
                 break;
@@ -350,27 +392,29 @@ public class AutoRedClip extends OpMode {
                 if(!follower.isBusy()) {
                     superSystem.dropOff();
                     clipTimer.reset();
-                    setPathState(130);
+                    setPathState(13);
                 }
                 break;
             case 13:
                 //move to pick up block 3
                 if (clipTimer.milliseconds() > clipTime) {
 
-                    follower.followPath(scorePickup3, false);
+                    follower.followPath(scorePickup3, true);
                     setPathState(14);
                 }
                 break;
             case 14:
                 //look and pickup block 3
-                superSystem.scan(0);
-                superSystem.setXRdy();
-                setPathState(15);
+                if(!follower.isBusy()) {
+                    superSystem.scan(0);
+                    superSystem.setXRdy();
+                    setPathState(15);
+                }
                 break;
             case 15:
                 //move to dropoff 3
                 if (superSystem.isRdyToMove()) {
-                    follower.followPath(scoreDropOff3, false);
+                    follower.followPath(scoreDropOff3, .85  ,true);
                     setPathState(16);
                 }
                 break;
@@ -409,7 +453,7 @@ public class AutoRedClip extends OpMode {
         superSystem.setIsAutoClip(true);
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
-        follower.setStartingPose(new Pose(134.5,62,Math.toRadians(180)));
+        follower.setStartingPose(new Pose(134.5,81,Math.toRadians(180)));
         buildPaths();
     }
 

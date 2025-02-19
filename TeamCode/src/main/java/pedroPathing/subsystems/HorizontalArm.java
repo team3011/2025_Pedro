@@ -13,9 +13,9 @@ public class HorizontalArm {
     public static double pickupPos = 0.86;
     public static double transferPos= 0.44;
     public static double stowPos= 0.5;
-    public static int timePickupToTransfer = 800;
-    public static int timeTransferToScan = 500;
-    public static int timeScanToPickup = 500;
+    public static int timePickupToTransfer = 300;
+    public static int timeTransferToScan = 200;
+    public static int timeScanToPickup = 200;
     public static int timeTransferToStow = 125;
 
 

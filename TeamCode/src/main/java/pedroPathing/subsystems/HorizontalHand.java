@@ -12,15 +12,18 @@ public class HorizontalHand {
     public static double par = .79;
     public static double perp = .46;
     public static double open = .25;
-    public static double closed = .47;
+    public static double closed = .56;
     public static double down = 0.03;
     public static double up = .6;
     public static double limit = 0.20;
 
-    public HorizontalHand(HardwareMap hardwareMap){
+    public HorizontalHand(HardwareMap hardwareMap, boolean isAuto){
         this.wrist = hardwareMap.get(Servo.class, "wrist");
         this.hand = hardwareMap.get(Servo.class, "clawServo");
         this.finger = hardwareMap.get(Servo.class, "paulFinger");
+        if (isAuto){
+            open = 0.15;
+        }
     }
 
     public void openClaw(){

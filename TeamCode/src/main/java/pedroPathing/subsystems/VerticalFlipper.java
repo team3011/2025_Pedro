@@ -22,7 +22,7 @@ public class VerticalFlipper {
         this.left.setPwmRange(new PwmControl.PwmRange(500, 2500));
         this.right.setPwmRange(new PwmControl.PwmRange(500, 2500));
         this.right.setDirection(Servo.Direction.REVERSE);
-        goToPickUp();
+        //goToPickUp();
     }
 
     public void goToPickUp(){
