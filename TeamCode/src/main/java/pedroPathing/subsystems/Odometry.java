@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Config
 public class Odometry {
     private Servo odoServo;
-    public static double odoUpPos = 0;
-    public static double odoDownPos = 1;
+    public static double odoUpPos = .1;
+    public static double odoDownPos = .7;
 
     public Odometry(HardwareMap hardwareMap){
         this.odoServo = hardwareMap.get(Servo.class, "odoServo");

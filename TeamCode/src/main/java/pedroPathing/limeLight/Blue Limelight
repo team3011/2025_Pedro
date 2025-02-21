@@ -1,0 +1,81 @@
+import cv2
+import numpy as np
+
+def runPipeline(image, llrobot):
+    # Initialize variables to avoid unboundlocal errors
+    largest_contour = np.array([[]])
+    center_x, center_y = 0, 0
+    orientation = 0
+    llpython = [0, 0, 0, 0, 0, 0, 0, 0]
+    # cv2.contourArea = track_opencv('contourArea')(cv2.contourArea)
+
+    # Convert BGR image to HSV
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    # Define range for blue color
+    lower_blue = np.array([90, 120, 40])
+    upper_blue = np.array([140, 255, 255])
+
+    # Create masks for blue color
+    mask = cv2.inRange(hsv, lower_blue, upper_blue)
+
+    # Apply a slight blur to reduce noise
+    mask = cv2.GaussianBlur(mask, (5, 5), 0)
+
+    # Find contours
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    if contours:
+        # Find the largest contour
+        # if cv2.contourArea > 10:
+            largest_contour = max(contours, key=cv2.contourArea)
+
+            # Calculate center of the contour
+            M = cv2.moments(largest_contour)
+            if M["m00"] != 0:
+                center_x = int(M["m10"] / M["m00"])
+                center_y = int(M["m01"] / M["m00"])
+
+                # Calculate orientation using PCA
+                data_pts = np.float32(largest_contour).reshape(-1, 2)
+                mean, eigenvectors, _ = cv2.PCACompute2(data_pts, np.empty((0)))
+                orientation = np.arctan2(eigenvectors[0, 1], eigenvectors[0, 0])
+
+                # Convert orientation to degrees rounded to the nearest 10
+                orientation_deg = round(np.degrees(orientation),-1)
+
+                #0 is perp
+                #neg numbers are cc stopping at -90
+                #pos numbers are c stopping at 80
+
+
+                if orientation_deg > 80:
+                    orientation_deg -= 180
+
+
+                # Normalize x and y to -1 to 1 range
+                height, width = image.shape[:2]
+                norm_x = (center_x - width/2) / (width/2)
+                norm_y = (center_y - height/2) / (height/2)
+
+                # Draw contour and center point
+                cv2.drawContours(image, [largest_contour], 0, (0, 255, 0), 2)
+                cv2.circle(image, (center_x, center_y), 5, (0, 0, 255), -1)
+
+                # Draw orientation line
+                line_length = 50
+                end_x = int(center_x + line_length * np.cos(orientation))
+                end_y = int(center_y + line_length * np.sin(orientation))
+                cv2.line(image, (center_x, center_y), (end_x, end_y), (255, 0, 0), 2)
+
+                # Add text with information
+                cv2.putText(image, f"X: {norm_x:.2f}, Y: {norm_y:.2f}", (10, 30),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+                cv2.putText(image, f"Orientation: {orientation_deg:.2f} deg", (10, 60),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+
+                # Populate llpython array
+                llpython = [1, norm_x, norm_y, orientation_deg, 0, 0, 0, 0]
+
+    # Return results
+    return largest_contour, image, llpython

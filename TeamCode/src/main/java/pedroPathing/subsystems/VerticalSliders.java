@@ -81,6 +81,8 @@ public class VerticalSliders {
         return this.rightMotor.getCurrentPosition();
     }
 
+    public int getTargetPosition() {return this.targetPosition;}
+
     //mm is the distance in millimeters you want the sliders to move
     public void setPosition(int mm){
         //are we trying to move?

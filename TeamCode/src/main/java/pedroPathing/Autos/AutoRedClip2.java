@@ -439,7 +439,7 @@ public class AutoRedClip2 extends OpMode {
     /** This method is called once at the init of the OpMode. **/
     @Override
     public void init() {
-        superSystem = new SuperSystem(hardwareMap,dashboardTelemetry, true);
+        superSystem = new SuperSystem(hardwareMap,dashboardTelemetry, 1);
         superSystem.setAlliance(false);
         superSystem.setToggleStateAuto();
         odometry = new Odometry(hardwareMap);
@@ -450,7 +450,6 @@ public class AutoRedClip2 extends OpMode {
         superSystem.closeVGripper();
         superSystem.setAutoWait(true);
         superSystem.setIsAutoScan(true);
-        superSystem.setIsAutoClip(true);
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(new Pose(134.5,81,Math.toRadians(180)));

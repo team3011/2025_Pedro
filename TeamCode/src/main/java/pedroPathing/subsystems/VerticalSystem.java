@@ -18,6 +18,8 @@ public class VerticalSystem {
     public static int Height_basket = 940;
     public static int Height_stow = 300;
     public static int Height_lift = 100;
+    public static int Height_phase1 = 175;
+    public static int Height_phase2 = 100;
     public static int gripPause = 500;
     static int gripperState = -1; //0 means closed, 1 means open
     static int gripperTarget = -1;
@@ -38,6 +40,13 @@ public class VerticalSystem {
         verticalFlipper = new VerticalFlipper(hardwareMap);
         verticalGripper = new VerticalGripper(hardwareMap);
         dashboardTelemetry = db;
+    }
+
+    public void liftPhase1(){
+        verticalSliders.setPosition(Height_phase1);
+    }
+    public void liftPhase2(){
+        verticalSliders.setPosition(Height_phase2);
     }
 
     public void prepToBasket(){
@@ -78,6 +87,10 @@ public class VerticalSystem {
 
     public void setAutoWait(boolean b){
         autoWait = b;
+    }
+
+    public boolean slidersReady() {
+        return verticalSliders.getPosition() < verticalSliders.getTargetPosition() - 10;
     }
 
     public void clipClip(){

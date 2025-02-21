@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -18,6 +19,7 @@ public class SuperSystem {
     public static HorizontalArm horizontalArm;
     public static HorizontalHand horizontalHand;
     public static HorizontalSliders horizontalSliders;
+    public static VerticalPusher verticalPusher;
     //set up timers
     ElapsedTime clawTimer = new ElapsedTime();
     public static int clawPause = 150;
@@ -33,8 +35,8 @@ public class SuperSystem {
     boolean isScanning = false;
     public static double scanPowerFast = 1; // 2/17 changed from .6
     public static double scanPowerSlow = .4; // 2/17 changed from .3
-    public static double upperLimit = -.02; //-0.05 for clip
-    public static double lowerLimit = -0.09; // -0.15 for clip
+    public static double upperLimit = -.15; //-0.05 for clip
+    public static double lowerLimit = -0.22; // -0.15 for clip
     public static double autoUpperLimit = -.13; //-0.05 for clip
     public static double autoLowerLimit = -0.25; // -0.15 for clip
 
@@ -53,7 +55,7 @@ public class SuperSystem {
     RevBlinkinLedDriver blinkin;
     Servo rgbLED;
     public static MyLimeLight myLimeLight;
-    DcMotor headlights;
+    DcMotorSimple headlights;
     boolean isBlue = false;
     int toggleState = 0; //0 is yellow, 1 is color, 2 is lift
     boolean isAutoScan = false;
@@ -61,23 +63,33 @@ public class SuperSystem {
     boolean isAutoClip = false;
     boolean isAutoTransferPause = false;
     boolean isAuto;
+    boolean isAutoBasket = false;
 
-    public SuperSystem(@NonNull HardwareMap hardwareMap, @NonNull Telemetry db, boolean b){
+    public SuperSystem(@NonNull HardwareMap hardwareMap, @NonNull Telemetry db, int program){
         dashboardTelemetry = db;
-        headlights = hardwareMap.get(DcMotor.class, "led");
+        headlights = hardwareMap.get(DcMotorSimple.class, "led");
         verticalSystem = new VerticalSystem(hardwareMap, dashboardTelemetry);
         horizontalArm = new HorizontalArm(hardwareMap);
         horizontalHand = new HorizontalHand(hardwareMap, isAuto);
         myLimeLight = new MyLimeLight(hardwareMap);
+        verticalPusher = new VerticalPusher(hardwareMap);
         blinkin = hardwareMap.get(RevBlinkinLedDriver.class, "blinken");
         rgbLED = hardwareMap.get(Servo.class,"rgbLight");
         horizontalSliders = new HorizontalSliders(hardwareMap, dashboardTelemetry);
         blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
         rgbLED.setPosition(.333);
-        isAuto = b;
-        if (isAuto) {
-            upperLimit = autoUpperLimit; //-0.05 for clip
-            lowerLimit = autoLowerLimit; // -0.15 for clip
+//        isAuto = b;
+        if (program != 0) {
+            isAuto = true;
+            if (program == 1) {
+                upperLimit = autoUpperLimit; //-0.05 for clip
+                lowerLimit = autoLowerLimit; // -0.15 for clip
+                isAutoClip = true;
+            } else {
+                upperLimit = -.15;
+                lowerLimit = -.22;
+                isAutoBasket = true;
+            }
         }
     }
 
@@ -90,6 +102,7 @@ public class SuperSystem {
     }
 
     public void update(){
+        verticalPusher.update();
         //@arm transfer position waiting for vgripper to take control
         if (armPauseTriggered && armTimer.milliseconds() > VerticalSystem.gripPause/2.0) {
             horizontalArm.toStowPos();
@@ -97,7 +110,7 @@ public class SuperSystem {
             armPauseTriggered = false;
             setLED();
             isAutoTransferDone = true;
-            if (isAutoClip) {
+            if (isAuto) {
                 transferTimer.reset();
                 isAutoTransferPause = true;
                 //verticalSystem.prepToClip();
@@ -106,8 +119,12 @@ public class SuperSystem {
             }
         }
 
-        if (isAutoTransferPause && isAutoClip && isAutoTransferDone && transferTimer.milliseconds() > 500){
-            verticalSystem.prepToClip();
+        if (isAutoTransferPause && isAuto && isAutoTransferDone && transferTimer.milliseconds() > 500){
+            if (isAutoClip) {
+                verticalSystem.prepToClip();
+            } else {
+                verticalSystem.prepToBasket();
+            }
             isAutoTransferPause = false;
         }
 
@@ -315,6 +332,11 @@ public class SuperSystem {
         setLED();
     }
 
+    public void setToggleStateAuto2(){
+        toggleState =  0;
+        setLED();
+    }
+
     public void reset(){
         isScanning = false;
         horizontalSliders.setPosition(0);
@@ -357,6 +379,10 @@ public class SuperSystem {
 
     public boolean isRdyToMove(){
         return !isScanning && !isPickupPause;
+    }
+
+    public boolean isRdyToMove2(){
+        return !verticalSystem.slidersReady();
     }
 
     public void setIsAutoScan(boolean b){
@@ -431,7 +457,29 @@ public class SuperSystem {
         return isAutoTransferDone;
     }
 
-    public void setIsAutoClip(boolean b){
-        isAutoClip = b;
+    public void setToggleState(int input){
+        toggleState = input;
+    }
+
+    public void liftPhase1(){
+        verticalSystem.liftPhase1();
+    }
+    public void liftPhase2(){
+        verticalSystem.liftPhase2();
+    }
+    public void liftPhase3(){
+        verticalPusher.goOut();
+    }
+
+    public void liftPhase4(){
+        verticalPusher.goIn();
+    }
+
+    public void headlightsOn(){
+        headlights.setPower(1);
+    }
+
+    public void toScanPos(){
+        horizontalArm.toScanPos();
     }
 }

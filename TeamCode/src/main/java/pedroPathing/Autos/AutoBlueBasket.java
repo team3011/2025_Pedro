@@ -33,7 +33,7 @@ import pedroPathing.subsystems.SuperSystem;
 
 @Config
 @Autonomous
-public class AutoRedBasket extends OpMode {
+public class AutoBlueBasket extends OpMode {
     Odometry odometry;
     SuperSystem superSystem;
     //this section allows us to access telemetry data from a browser
@@ -83,95 +83,95 @@ public class AutoRedBasket extends OpMode {
                 .addPath(
                         // Line 1
                         new BezierLine(
-                                new Point(134.800, 62.200),
-                                new Point(106.500, 62.200)
+                                new Point(144-134.800, 144-62.200),
+                                new Point(144-106.500, 144-62.200)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 .build();
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         toScan1 = follower.pathBuilder()
                 .addPath(
                         new BezierCurve(
-                                new Point(106.500, 62.200, Point.CARTESIAN),
-                                new Point(136.800, 54.400, Point.CARTESIAN),
-                                new Point(108.000, 22.474, Point.CARTESIAN)
+                                new Point(144-106.500, 144-62.200, Point.CARTESIAN),
+                                new Point(144-136.800, 144-54.400, Point.CARTESIAN),
+                                new Point(144-108.000 - 6, 144-22.474, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(180))
                 .build();
 
         toDropOff1 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Point(108.000, 21.474, Point.CARTESIAN),
-                                new Point(126.750, 18.000, Point.CARTESIAN)
+                                new Point(144-108.000 - 6, 144-21.474, Point.CARTESIAN),
+                                new Point(144-126.750, 144-18.000, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(315))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
                 .build();
 
         toScan2 = follower.pathBuilder()
                 .addPath(
                         new BezierCurve(
-                                new Point(126.750, 18.000, Point.CARTESIAN),
-                                new Point(115.400, 21.200, Point.CARTESIAN),
-                                new Point(108.000, 12.200, Point.CARTESIAN)
+                                new Point(144-126.750, 144-18.000, Point.CARTESIAN),
+                                new Point(144-115.400, 144-21.200, Point.CARTESIAN),
+                                new Point(144-108.000 - 6, 144-12.200, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
                 .build();
 
         toDropOff2 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Point(108.000, 12.200, Point.CARTESIAN),
-                                new Point(126.750, 18.000, Point.CARTESIAN)
+                                new Point(144-108.000 - 6, 144-12.200, Point.CARTESIAN),
+                                new Point(144-126.750, 144-18.000, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(315))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
                 .build();
 
         toScan3 = follower.pathBuilder()
                 .addPath(
                         new BezierCurve(
-                                new Point(126.750, 18.000, Point.CARTESIAN),
-                                new Point(115.400, 21.100, Point.CARTESIAN),
-                                new Point(109.900, 15.500, Point.CARTESIAN)
+                                new Point(144-126.750, 144-18.000, Point.CARTESIAN),
+                                new Point(144-115.400, 144-21.100, Point.CARTESIAN),
+                                new Point(144-109.900 - 4.5, 144-15.500, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(40))
+                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(220))
                 .build();
 
         toDropOff3 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Point(109.900, 15.500, Point.CARTESIAN),
-                                new Point(126.750, 18.000, Point.CARTESIAN)
+                                new Point(144-109.900 - 4.5, 144-15.500, Point.CARTESIAN),
+                                new Point(144-126.750, 144-18.000, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(40), Math.toRadians(315))
+                .setLinearHeadingInterpolation(Math.toRadians(220), Math.toRadians(135))
                 .build();
 
         adjust1 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Point(126.750, 18.000, Point.CARTESIAN),
-                                new Point(128.750, 16.000, Point.CARTESIAN)
+                                new Point(144-126.750, 144-18.000, Point.CARTESIAN),
+                                new Point(144-128.750, 144-16.000, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(315))
+                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(135))
                 .build();
 
         adjust2 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Point(128.750, 16.000, Point.CARTESIAN),
-                                new Point(126.750, 18.000, Point.CARTESIAN)
+                                new Point(144-128.750, 144-16.000, Point.CARTESIAN),
+                                new Point(144-126.750, 144-18.000, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(315))
+                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(135))
                 .build();
     }
 
@@ -347,7 +347,7 @@ public class AutoRedBasket extends OpMode {
     @Override
     public void init() {
         superSystem = new SuperSystem(hardwareMap,dashboardTelemetry, 2);
-        superSystem.setAlliance(false);
+        superSystem.setAlliance(true);
         superSystem.setToggleStateAuto();
         odometry = new Odometry(hardwareMap);
         odometry.odoDown();
@@ -360,7 +360,7 @@ public class AutoRedBasket extends OpMode {
         superSystem.setIsAutoScan(true);
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
-        follower.setStartingPose(new Pose(134.5,62.2,Math.toRadians(180)));
+        follower.setStartingPose(new Pose(144-134.800, 144-62.200,Math.toRadians(0)));
         buildPaths();
     }
 

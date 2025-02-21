@@ -4,8 +4,12 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.hardware.rev.RevSPARKMini;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import pedroPathing.subsystems.HorizontalArm;
@@ -33,10 +37,9 @@ public abstract class JavaCompetitionTeleop extends OpMode {
     int prescan = 0; // 0 means no prescan, 1 means prep to pickup, 2 means prep to return
 
 
-
     public void init() {
         drive = new MecanumDrive(hardwareMap);
-        superSystem = new SuperSystem(hardwareMap,dashboardTelemetry, false);
+        superSystem = new SuperSystem(hardwareMap,dashboardTelemetry, 0);
         g1 = new GamepadEx(gamepad1);
         allianceColor = getAllianceColor();
         odometry = new Odometry(hardwareMap);
@@ -115,7 +118,6 @@ public abstract class JavaCompetitionTeleop extends OpMode {
                     prescan = 0;
                 }
             } else if (this.g1.wasJustPressed(GamepadKeys.Button.B)) { //really O
-                superSystem.scan(2);
                 if(prescan == 1){
                     superSystem.toPreScan();
                     prescan = 2;
@@ -155,6 +157,19 @@ public abstract class JavaCompetitionTeleop extends OpMode {
             } else if (this.g1.isDown(GamepadKeys.Button.X)) { ////really []
                 superSystem.dropOff();
             }
+            /*
+            else if (g1.isDown(GamepadKeys.Button.DPAD_DOWN)) {
+                superSystem.liftPhase1();
+            } else if (g1.isDown(GamepadKeys.Button.DPAD_RIGHT)) {
+                superSystem.liftPhase2();
+            } else if (g1.isDown(GamepadKeys.Button.DPAD_UP)) {
+                superSystem.liftPhase3();
+            } else if (g1.isDown(GamepadKeys.Button.DPAD_LEFT)) {
+                superSystem.liftPhase4();
+            }
+             */
+
+
         }else{
             if (this.g1.wasJustPressed(GamepadKeys.Button.A)) { //really X
                 drive.setHeadingToMaintain(0); // 180 degrees???
