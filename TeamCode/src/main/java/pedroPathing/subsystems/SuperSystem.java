@@ -371,6 +371,17 @@ public class SuperSystem {
         headlights.setPower(1);
         //***** NEED TO FIX LL PIPELINES BEFORE CHANGING THIS ******
         myLimeLight.start(input); //0 red, 1 yellow, 2 blue
+
+        /*
+        if(isAuto){
+            headlights.setPower(0);
+        }
+        else{
+            headlights.setPower(1);
+        }
+
+         */
+
     }
 
     public void setXRdy(){
@@ -481,5 +492,16 @@ public class SuperSystem {
 
     public void toScanPos(){
         horizontalArm.toScanPos();
+    }
+
+    public int getVertPos(){
+        return verticalSystem.getVertSliderPos();
+    }
+
+    public void setHeadlights(){
+        headlights.setPower(1);
+    }
+    public int getHorPos(){
+        return horizontalSliders.getPositionMM();
     }
 }

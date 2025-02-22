@@ -132,4 +132,8 @@ public class VerticalSystem {
         }
         //dashboardTelemetry.addData("gripper state", gripperState);
     }
+
+    public int getVertSliderPos(){
+        return verticalSliders.getPosition();
+    }
 }
