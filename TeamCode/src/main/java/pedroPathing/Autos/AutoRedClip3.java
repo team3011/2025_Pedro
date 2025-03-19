@@ -400,7 +400,8 @@ public class AutoRedClip3 extends OpMode {
                 if (clipTimer.milliseconds() > clipTime) {
 
                     follower.followPath(scorePickup3, true);
-                    setPathState(14);
+                    superSystem.reset();
+                    setPathState(140);
                 }
                 break;
             case 14:

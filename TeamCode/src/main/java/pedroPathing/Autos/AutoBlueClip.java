@@ -145,27 +145,27 @@ public class AutoBlueClip extends OpMode {
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 // Line 7
-                .addPath(
-                        new BezierCurve(
-                                new Point(144-124.800+xOffset, 144-128.533, Point.CARTESIAN),
-                                new Point(144-88.711, 144-122.489, Point.CARTESIAN),
-                                new Point(144-85.156, 144-134.578+yOffset, Point.CARTESIAN)
-                        )
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
-                // Line 8
-                .addPath(
-                        new BezierCurve(
-                                new Point(144-85.156, 144-134.578+yOffset, Point.CARTESIAN),
-                                new Point(144-103.822, 144-134.400+yOffset, Point.CARTESIAN),
-                                new Point(144-124.800+xOffset, 144-134.578+yOffset, Point.CARTESIAN)
-                        )
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+//                .addPath(
+//                        new BezierCurve(
+//                                new Point(144-124.800+xOffset, 144-128.533, Point.CARTESIAN),
+//                                new Point(144-88.711, 144-122.489, Point.CARTESIAN),
+//                                new Point(144-85.156, 144-134.578+yOffset, Point.CARTESIAN)
+//                        )
+//                )
+//                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+//                // Line 8
+//                .addPath(
+//                        new BezierCurve(
+//                                new Point(144-85.156, 144-134.578+yOffset, Point.CARTESIAN),
+//                                new Point(144-103.822, 144-134.400+yOffset, Point.CARTESIAN),
+//                                new Point(144-124.800+xOffset, 144-134.578+yOffset, Point.CARTESIAN)
+//                        )
+//                )
+//                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 // Line 9
                 .addPath(
                         new BezierLine(
-                                new Point(144-124.800+xOffset, 144-134.578+yOffset, Point.CARTESIAN),
+                                new Point(144-124.800+xOffset, 144-128.533, Point.CARTESIAN),
                                 new Point(144-humanX, 144-humanY, Point.CARTESIAN)
                         )
                 )
@@ -400,7 +400,8 @@ public class AutoBlueClip extends OpMode {
                 if (clipTimer.milliseconds() > clipTime) {
 
                     follower.followPath(scorePickup3, true);
-                    setPathState(14);
+                    superSystem.reset();
+                    setPathState(140);
                 }
                 break;
             case 14:

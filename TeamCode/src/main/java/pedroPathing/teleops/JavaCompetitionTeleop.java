@@ -150,9 +150,10 @@ public abstract class JavaCompetitionTeleop extends OpMode {
                 superSystem.prepToDropOff();
                 if(superSystem.getToggleState() == 0){
                     drive.setHeadingToMaintain(135);
-                }else if(superSystem.getToggleState() == 1){
-                    drive.setHeadingToMaintain(0);
                 }
+//                else if(superSystem.getToggleState() == 1){
+//                    drive.setHeadingToMaintain(0);
+//                }
 
             } else if (this.g1.isDown(GamepadKeys.Button.X)) { ////really []
                 superSystem.dropOff();

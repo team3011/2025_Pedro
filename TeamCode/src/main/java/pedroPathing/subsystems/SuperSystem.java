@@ -27,17 +27,17 @@ public class SuperSystem {
     boolean armPauseTriggered = false;
     ElapsedTime transferTimer = new ElapsedTime();
     boolean transferTriggered = false;
-    public static int transferPause = 800;
-    public static int pickUpPause = 250;
+    public static int transferPause = 1000;
+    public static int pickUpPause = 300;
     boolean isPickupPause = false;
     ElapsedTime pickUpPauseTimer = new ElapsedTime();
     ElapsedTime scanPause = new ElapsedTime();
     boolean isScanning = false;
     public static double scanPowerFast = 1; // 2/17 changed from .6
     public static double scanPowerSlow = .4; // 2/17 changed from .3
-    public static double upperLimit = -.15; //-0.05 for clip
-    public static double lowerLimit = -0.22; // -0.15 for clip
-    public static double autoUpperLimit = -.13; //-0.05 for clip
+    public static double upperLimit = -.16; //-0.05 for clip
+    public static double lowerLimit = -0.25; // -0.15 for clip
+    public static double autoUpperLimit = -.16; //-0.05 for clip
     public static double autoLowerLimit = -0.25; // -0.15 for clip
 
     public static int xScanDirection = 0;
@@ -155,7 +155,7 @@ public class SuperSystem {
 
         //we are scanning for an object
         if (isScanning && scanPause.milliseconds() > 500 && myLimeLight.update()) {
-            if (!isAutoScan) {
+            if (false) {
                 horizontalHand.setPositionByCamera(myLimeLight.getAngle());
             }
             dashboardTelemetry.addData("xloc", myLimeLight.getxLoc());

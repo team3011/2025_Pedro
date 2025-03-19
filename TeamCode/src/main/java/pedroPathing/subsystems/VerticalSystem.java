@@ -13,11 +13,11 @@ public class VerticalSystem {
     //@Config variables
     public static int Height_clip = 450;
     public static int Height_clipClip = 290;
-    public static int Height_transfer = 40;
-    public static int Height_prepToLift = 175;
+    public static int Height_transfer = 30;
+    public static int Height_prepToLift = 600;
     public static int Height_basket = 940;
     public static int Height_stow = 300;
-    public static int Height_lift = 100;
+    public static int Height_lift = 450;
     public static int Height_phase1 = 175;
     public static int Height_phase2 = 100;
     public static int gripPause = 500;

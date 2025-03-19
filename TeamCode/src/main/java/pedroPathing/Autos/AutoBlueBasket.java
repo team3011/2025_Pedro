@@ -138,7 +138,7 @@ public class AutoBlueBasket extends OpMode {
                         new BezierCurve(
                                 new Point(144-126.750, 144-18.000, Point.CARTESIAN),
                                 new Point(144-115.400, 144-21.100, Point.CARTESIAN),
-                                new Point(144-109.900 - 4.5, 144-15.500, Point.CARTESIAN)
+                                new Point(144-109.900 - 5, 144-15.500, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(220))
