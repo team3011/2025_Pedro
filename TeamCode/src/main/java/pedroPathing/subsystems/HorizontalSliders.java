@@ -23,9 +23,10 @@ public class HorizontalSliders {
     public static double kD = 0;
     public static float convertTicksToMillimeters = .4054f; // 225mm/1000ticks = .225
     private boolean resetFlag = false;
-    public static int maximumMilliamps = 3500;
+    public static int maximumMilliamps = 5000;
     public static double maxPower = .8;
     public static double minimumSpeed = 0.1;
+    public static double resetSpeed = -0.7;
     private boolean goingUp = false;
     private boolean holdingPosition = true;
     private int targetPositionMM;
@@ -142,8 +143,8 @@ public class HorizontalSliders {
 
             this.leftMotor.setPower(pid);
 
-            //dashboardTelemetry.addData("hor-current position in ticks", currentPosition);
-            //dashboardTelemetry.addData("hor-pid output", pid);
+            dashboardTelemetry.addData("hor-current position in ticks", currentPosition);
+            dashboardTelemetry.addData("hor-pid output", pid);
         }
 
 //        dashboardTelemetry.addData("where am i?",getPositionMM());
@@ -154,5 +155,22 @@ public class HorizontalSliders {
 //        dashboardTelemetry.addData("hor-holding pos", this.holdingPosition);
 //        dashboardTelemetry.addData("hor-target position in ticks", this.targetPosition);
 //        dashboardTelemetry.update();
+    }
+    public void reset(){
+        double pid = 0;
+        while(true) {
+            if (this.getCurrent() > maximumMilliamps) {
+                pid = 0;
+                this.leftMotor.setPower(pid);
+                this.leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                this.leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                this.targetPosition = 0;
+                break;
+            } else {
+                pid = resetSpeed;
+                this.leftMotor.setPower(pid);
+            }
+            dashboardTelemetry.addData("hor-slider current", leftMotor.getCurrent(CurrentUnit.MILLIAMPS));
+        }
     }
 }

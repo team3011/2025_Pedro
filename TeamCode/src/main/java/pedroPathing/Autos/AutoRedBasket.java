@@ -96,7 +96,7 @@ public class AutoRedBasket extends OpMode {
                         new BezierCurve(
                                 new Point(106.500, 62.200, Point.CARTESIAN),
                                 new Point(136.800, 54.400, Point.CARTESIAN),
-                                new Point(108.000, 22.474, Point.CARTESIAN)
+                                new Point(108.000 + 4, 22.474, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(0))
@@ -105,7 +105,7 @@ public class AutoRedBasket extends OpMode {
         toDropOff1 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Point(108.000, 21.474, Point.CARTESIAN),
+                                new Point(108.000 + 4, 21.474, Point.CARTESIAN),
                                 new Point(126.750, 18.000, Point.CARTESIAN)
                         )
                 )
@@ -117,7 +117,7 @@ public class AutoRedBasket extends OpMode {
                         new BezierCurve(
                                 new Point(126.750, 18.000, Point.CARTESIAN),
                                 new Point(115.400, 21.200, Point.CARTESIAN),
-                                new Point(108.000, 12.200, Point.CARTESIAN)
+                                new Point(108.000 + 4, 12.200, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(0))
@@ -126,7 +126,7 @@ public class AutoRedBasket extends OpMode {
         toDropOff2 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Point(108.000, 12.200, Point.CARTESIAN),
+                                new Point(108.000 + 4, 12.200, Point.CARTESIAN),
                                 new Point(126.750, 18.000, Point.CARTESIAN)
                         )
                 )
@@ -138,7 +138,7 @@ public class AutoRedBasket extends OpMode {
                         new BezierCurve(
                                 new Point(126.750, 18.000, Point.CARTESIAN),
                                 new Point(115.400, 21.100, Point.CARTESIAN),
-                                new Point(109.900, 15.500, Point.CARTESIAN)
+                                new Point(109.900 , 15.500, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(40))
@@ -331,6 +331,7 @@ public class AutoRedBasket extends OpMode {
                 if(!follower.isBusy()) {
                     follower.followPath(adjust2, true);
                     setPathState(23);
+                    superSystem.reset();
                 }
                 break;
         }

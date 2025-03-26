@@ -79,7 +79,7 @@ public abstract class JavaCompetitionTeleop extends OpMode {
         dashboardTelemetry.addData("autoTransfer Done",superSystem.getIsAutoTransferDone());
         dashboardTelemetry.addData("direction facing",drive.getHeadingToMaintain());
 
-        //driver 1
+//        driver 1
         if (!superSystem.getIsScanning() && !superSystem.getIsLowScanning()){
             if (allianceColor.equals(AllianceColor.BLUE)) {
                 drive.drive2(digitalTransmission(-left_x), digitalTransmission(-left_y), right_x);

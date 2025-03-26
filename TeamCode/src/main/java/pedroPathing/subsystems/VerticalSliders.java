@@ -28,9 +28,10 @@ public class VerticalSliders {
     public static double kG = 0.015;
     public static float convertTicksToMillimeters = .225f; // 225mm/1000ticks = .225
     private boolean resetFlag = false;
-    public static int maximumMilliamps = 1750;
+    public static int maximumMilliamps = 4000;
     public static double maxPower = 1;
     public static double minimumSpeed = 0.1;
+    public static double resetSpeed = -0.8;
     private boolean goingUp = false;
     private boolean holdingPosition = true;
     private int targetPositionMM;
@@ -99,10 +100,11 @@ public class VerticalSliders {
                 this.goingUp = false;
             }
 
-            if(mm == -99 ){
-                this.resetFlag = true;
-                this.holdingPosition = false;
-            }
+//            if(mm == -99 ){
+//                this.resetFlag = true;
+//                this.holdingPosition = false;
+//                goingUp = false;
+//            }
 
             if (mm > 940) {
                 mm = 940;
@@ -147,7 +149,7 @@ public class VerticalSliders {
                         this.rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                         this.targetPosition = 0;
                     } else {
-                        pid = -0.4;
+                        pid = -resetSpeed;
                     }
                 }
             }
@@ -160,10 +162,10 @@ public class VerticalSliders {
             dashboardTelemetry.addData("vert-pid output", pid);
         }
 
-//        dashboardTelemetry.addData("vert-reset Flag", resetFlag);
+        dashboardTelemetry.addData("vert-reset Flag", resetFlag);
         dashboardTelemetry.addData("vert-going up", goingUp);
-//        dashboardTelemetry.addData("vert-milliamps", this.getCurrent(1));
-//        dashboardTelemetry.addData("vert-holding pos", this.holdingPosition);
+        dashboardTelemetry.addData("vert-milliamps", this.getCurrent(1));
+        dashboardTelemetry.addData("vert-holding pos", this.holdingPosition);
         dashboardTelemetry.addData("vert-target position in ticks", this.targetPosition);
 //        dashboardTelemetry.addData("check1", check1);
 //        dashboardTelemetry.addData("check2", check2);
@@ -186,5 +188,26 @@ public class VerticalSliders {
 
     public void addPowerForLift(boolean b) {
         isLifting = b;
+    }
+
+    public void reset(){
+        double pid = 0;
+        while(true) {
+            if (this.getCurrent(1) > maximumMilliamps) {
+                this.resetFlag = false;
+                this.holdingPosition = true;
+                pid = 0;
+                this.rightMotor.setPower(pid);
+                this.leftMotor.setPower(pid);
+                this.rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                this.rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                this.targetPosition = 0;
+                break;
+            } else {
+                pid = resetSpeed;
+                this.rightMotor.setPower(pid);
+                this.leftMotor.setPower(pid);
+            }
+        }
     }
 }

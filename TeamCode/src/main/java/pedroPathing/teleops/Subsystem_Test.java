@@ -1,6 +1,7 @@
 package pedroPathing.teleops;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -10,8 +11,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import pedroPathing.subsystems.SuperSystem;
 import pedroPathing.subsystems.VerticalGripper;
+import pedroPathing.subsystems.VerticalSliders;
 
-//@Config       //if you want config
+@Config       //if you want config
 @TeleOp       //if this is a teleop
 //@Autonomous   //if this is an auto
 public class Subsystem_Test extends OpMode{
@@ -20,9 +22,10 @@ public class Subsystem_Test extends OpMode{
     //this section allows us to access telemetry data from a browser
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
+    VerticalSliders verticalSlider;
     SuperSystem superSystem;
     DcMotorSimple bottomSlider;
-
+    public static int position = -999;
 
     VerticalGripper verticalGripper;
     /*
@@ -37,6 +40,7 @@ public class Subsystem_Test extends OpMode{
         // to 'get' must correspond to the names assigned during the robot configuration
         // step
         verticalGripper = new VerticalGripper(hardwareMap);
+        verticalSlider = new VerticalSliders(hardwareMap, dashboardTelemetry);
         superSystem.setToggleState(0);
 
         // Tell the driver that initialization is complete.
@@ -56,8 +60,10 @@ public class Subsystem_Test extends OpMode{
     @Override
     public void start() {
         runtime.reset();
-        superSystem.start();
+//        superSystem.start();
+        verticalSlider.reset();
         superSystem.update();
+
     }
 
     /*
@@ -74,8 +80,10 @@ public class Subsystem_Test extends OpMode{
 //        timer.reset();
 //        while (timer.milliseconds() < 1000) {}
 
-        superSystem.headlightsOn();
+//        superSystem.headlightsOn();
 //        superSystem.prepToDropOff();
+//        verticalSlider.setPosition(position);
+        verticalSlider.update();
         superSystem.update();
         dashboardTelemetry.update();
     }

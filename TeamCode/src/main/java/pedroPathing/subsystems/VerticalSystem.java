@@ -13,13 +13,14 @@ public class VerticalSystem {
     //@Config variables
     public static int Height_clip = 450;
     public static int Height_clipClip = 290;
-    public static int Height_transfer = 30;
+    public static int Height_transfer = 80;
     public static int Height_prepToLift = 600;
     public static int Height_basket = 940;
     public static int Height_stow = 300;
     public static int Height_lift = 450;
     public static int Height_phase1 = 175;
     public static int Height_phase2 = 100;
+    public static int startPosition = -99;
     public static int gripPause = 500;
     static int gripperState = -1; //0 means closed, 1 means open
     static int gripperTarget = -1;
@@ -67,7 +68,7 @@ public class VerticalSystem {
     }
 
     public void goHome(){
-        verticalSliders.setPosition(-99);
+        verticalSliders.reset();
         verticalFlipper.goToPickUp();
         gripperTarget = 1;
         verticalSliders.setKG(.015);
